@@ -1212,7 +1212,7 @@ class Microdot:
         raise HTTPException(status_code, reason)
 
     async def start_server(self, host='0.0.0.0', port=5000, debug=False,
-                           ssl=None):
+                           ssl=None, start_serving=True):
         """Start the Microdot web server as a coroutine. This coroutine does
         not normally return, as the server enters an endless listening loop.
         The :func:`shutdown` function provides a method for terminating the
@@ -1231,6 +1231,13 @@ class Microdot:
                       default is ``False``.
         :param ssl: An ``SSLContext`` instance or ``None`` if the server should
                     not use TLS. The default is ``None``.
+        :param start_serving: If ``True``, the server starts accepting
+                              connections immediately. When set to ``False``,
+                              this method returns a ``Server`` object. To
+                              accept connections, the
+                              ``Server.serve_forever()`` method should be
+                              called. The default is ``True``. A value of
+                              ``False`` is only supported in CPython.
 
         This method is a coroutine.
 
@@ -1275,10 +1282,18 @@ class Microdot:
                 host=host, port=port))
 
         try:
-            self.server = await asyncio.start_server(serve, host, port,
-                                                     ssl=ssl)
+            self.server = await asyncio.start_server(
+                serve, host, port, ssl=ssl, start_serving=start_serving)
+            if not start_serving:
+                return self.server
         except TypeError:  # pragma: no cover
-            self.server = await asyncio.start_server(serve, host, port)
+            if not start_serving:
+                raise ValueError('start_serving must be True')
+            try:
+                self.server = await asyncio.start_server(serve, host, port,
+                                                         ssl=ssl)
+            except TypeError:  # pragma: no cover
+                self.server = await asyncio.start_server(serve, host, port)
 
         while True:
             try:
