@@ -201,6 +201,8 @@ class TestResponse(unittest.TestCase):
                            domain='example.com\r\nSet-Cookie: foo2=bar2')
         with self.assertRaises(ValueError):
             res.set_cookie('foo1', 'bar1', path='/\r\nSet-Cookie: foo2=bar2')
+        with self.assertRaises(ValueError):
+            res.set_cookie('foo10', 'x;y', path='/')
         self.assertEqual(res.headers, {'Set-Cookie': [
             'foo1=bar1',
             'foo2=bar2; Path=/; Partitioned',

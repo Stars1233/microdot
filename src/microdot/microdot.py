@@ -611,6 +611,8 @@ class Response:
         :param http_only: The cookie's ``HttpOnly`` flag.
         :param partitioned: Whether the cookie is partitioned.
         """
+        if ';' in value:
+            raise ValueError('invalid cookie value')
         http_cookie = '{cookie}={value}'.format(cookie=cookie, value=value)
         if path:
             http_cookie += '; Path=' + path
