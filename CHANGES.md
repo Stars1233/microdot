@@ -1,5 +1,11 @@
 # Microdot change log
 
+**Release 2.6.2** - 2026-05-12
+
+- Support GET requests in multipart routes [#364](https://github.com/miguelgrinberg/microdot/issues/364) ([commit](https://github.com/miguelgrinberg/microdot/commit/04e4e6d4d95686917495edc412a1778b985422ba))
+- Forbid semicolons in cookie values ([commit](https://github.com/miguelgrinberg/microdot/commit/6b511eabeda0040cd5881d9bdbd11e7775244d8e))
+- Add Zizmor to CI [#362](https://github.com/miguelgrinberg/microdot/issues/362) ([commit](https://github.com/miguelgrinberg/microdot/commit/debd96002802c2d60e25f33d19d83984f9d251a8))
+
 **Release 2.6.1** - 2026-04-24
 
 - Sanitize cookies ([commit](https://github.com/miguelgrinberg/microdot/commit/99b281b45faef8472410f2d56bfef496dfbd95d5))
