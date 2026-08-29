@@ -613,7 +613,7 @@ class Response:
         """
         if ';' in value:
             raise ValueError('invalid cookie value')
-        http_cookie = '{cookie}={value}'.format(cookie=cookie, value=value)
+        http_cookie = f'{cookie}={value}'
         if path:
             http_cookie += '; Path=' + path
         if domain:
@@ -819,7 +819,7 @@ class Response:
         if max_age is None:
             max_age = cls.default_send_file_max_age
         if max_age is not None:
-            headers['Cache-Control'] = 'max-age={}'.format(max_age)
+            headers['Cache-Control'] = f'max-age={max_age}'
 
         if compressed:
             headers['Content-Encoding'] = compressed \
@@ -862,7 +862,7 @@ class URLPattern():
                        value of the segment. If omitted, the value is returned
                        as a string.
         """
-        cls.segment_patterns[type_name] = '/({})'.format(pattern)
+        cls.segment_patterns[type_name] = f'/({pattern})'
         cls.segment_parsers[type_name] = parser
 
     def __init__(self, url_pattern):
@@ -889,7 +889,7 @@ class URLPattern():
                     name = segment
                 parser = None
                 if type_.startswith('re:'):
-                    pattern += '/({pattern})'.format(pattern=type_[3:])
+                    pattern += f'/({type_[3:]})'
                 else:
                     if type_ not in self.segment_patterns:
                         raise ValueError('invalid URL segment type')
@@ -927,7 +927,7 @@ class URLPattern():
         return args
 
     def __repr__(self):  # pragma: no cover
-        return 'URLPattern: {}'.format(self.url_pattern)
+        return f'URLPattern: {self.url_pattern}'
 
 
 class HTTPException(Exception):
@@ -936,7 +936,7 @@ class HTTPException(Exception):
         self.reason = reason or str(status_code) + ' error'
 
     def __repr__(self):  # pragma: no cover
-        return 'HTTPException: {}'.format(self.status_code)
+        return f'HTTPException: {self.status_code}'
 
 
 class Microdot:

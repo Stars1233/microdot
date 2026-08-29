@@ -179,7 +179,7 @@ class TestClient:
         request_bytes = '{method} {path} HTTP/1.0\n'.format(
             method=method, path=path)
         if 'Host' not in headers:  # pragma: no branch
-            request_bytes += 'Host: {host}\n'.format(host=self.host)
+            request_bytes += f'Host: {self.host}\n'
         for header, value in headers.items():
             request_bytes += '{header}: {value}\n'.format(
                 header=header, value=value)
