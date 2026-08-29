@@ -78,7 +78,14 @@ for app, env, name in apps:
             r = requests.get('http://localhost:5000')
             r.raise_for_status()
 
-        tm = timeit(req, number=1000)
+        for _ in range(3):
+            try:
+                tm = timeit(req, number=1000)
+                break
+            except Exception:
+                pass
+            time.sleep(1)
+
     proc = psutil.Process(p.pid)
     mem = proc.memory_info().rss
     for child in proc.children(recursive=True):
