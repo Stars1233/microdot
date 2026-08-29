@@ -22,8 +22,11 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.urls]
-Homepage = "https://github.com/miguelgrinberg/microdot"
-"Bug Tracker" = "https://github.com/miguelgrinberg/microdot/issues"
+homepage = "https://code.miguelgrinberg.com/miguelgrinberg/microdot"
+documentation = "https://microdot.readthedocs.io/"
+repository = "https://code.miguelgrinberg.com/miguelgrinberg/microdot"
+issues = "https://github.com/miguelgrinberg/microdot/issues"
+changelog = "https://code.miguelgrinberg.com/miguelgrinberg/microdot/src/branch/main/CHANGES.md"
 
 [project.optional-dependencies]
 dev = [
