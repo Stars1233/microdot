@@ -17,19 +17,19 @@ class WebSocket:
     closed: bool
     def __init__(self, request: Request) -> None:
         ...
-    
+
     async def handshake(self) -> None:
         ...
-    
+
     async def receive(self) -> str | bytes:
         ...
-    
+
     async def send(self, data: str | bytes, opcode: int | None = ...) -> None:
         ...
-    
+
     async def close(self) -> None:
         ...
-    
+
 
 
 async def websocket_upgrade(request: Request) -> WebSocket:

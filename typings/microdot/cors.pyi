@@ -14,16 +14,16 @@ class CORS:
     max_age: int | None
     def __init__(self, app: Microdot | None = ..., allowed_origins: list[str] | Literal['*'] | None = ..., allow_credentials: bool = ..., allowed_methods: list[str] | None = ..., expose_headers: list[str] | None = ..., allowed_headers: list[str] | None = ..., max_age: int | None = ..., handle_cors: bool = ...) -> None:
         ...
-    
+
     default_options_handler: Callable[[Request], dict[str, str]]
     def initialize(self, app: Microdot, handle_cors: bool = ...) -> None:
         ...
-    
+
     def options_handler(self, request: Request) -> dict[str, str]:
         ...
-    
+
     def get_cors_headers(self, request: Request) -> dict[str, str]:
         ...
-    
+
     def after_request(self, request: Request, response: Response) -> None:
         ...

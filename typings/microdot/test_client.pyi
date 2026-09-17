@@ -13,11 +13,11 @@ class TestResponse:
     events: list[dict[str, Any]]
     def __init__(self) -> None:
         ...
-    
+
     @classmethod
     async def create(cls, res: Response):
         ...
-    
+
 
 
 class TestClient:
@@ -28,24 +28,27 @@ class TestClient:
     host: str
     def __init__(self, app: Microdot, cookies: dict[str, str] | None = ..., scheme: str | None = ..., host: str | None = ...) -> None:
         ...
-    
+
     async def request(self, method: str, path: str, headers: dict[str, str] | None = ..., body: bytes | None = ..., sock: Tuple[StreamReader, StreamWriter] | None = ...):
         ...
-    
+
     async def get(self, path: str, headers: dict[str, str] | None = ...):
         ...
-    
-    async def post(self, path: str, headers: dict[str, str] | None = ..., body=...):
+
+    async def post(self, path: str, headers: dict[str, str] | None = ..., body: bytes | None = ...):
         ...
-    
-    async def put(self, path: str, headers: dict[str, str] | None = ..., body=...):
+
+    async def put(self, path: str, headers: dict[str, str] | None = ..., body: bytes | None = ...):
         ...
-    
-    async def patch(self, path: str, headers: dict[str, str] | None = ..., body=...):
+
+    async def patch(self, path: str, headers: dict[str, str] | None = ..., body: bytes | None = ...):
         ...
-    
+
     async def delete(self, path: str, headers: dict[str, str] | None = ...):
         ...
-    
+
+    async def query(self, path: str, headers: dict[str, str] | None = ..., body: bytes | None = ...):
+        ...
+
     async def websocket(self, path: str, client: Generator[str | bytes, None, None] | AsyncGenerator[str | bytes, None], headers: dict[str, str] | None = ...):
         ...

@@ -313,6 +313,20 @@ class TestClient:
         """
         return await self.request('DELETE', path, headers=headers)
 
+    async def query(self, path, headers=None, body=None):
+        """Send a QUERY request to the application.
+
+        :param path: The request URL.
+        :param headers: A dictionary of headers to send with the request.
+        :param body: The request body. If a dictionary or list is provided,
+                     a JSON-encoded body will be sent. A string body is encoded
+                     to bytes as UTF-8. A bytes body is sent as-is.
+
+        This method returns a
+        :class:`TestResponse <microdot_test_client.TestResponse>` object.
+        """
+        return await self.request('QUERY', path, headers=headers, body=body)
+
     async def websocket(self, path, client, headers=None):
         """Send a websocket connection request to the application.
 

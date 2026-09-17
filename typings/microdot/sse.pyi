@@ -7,10 +7,10 @@ class SSE:
     queue: list[bytes]
     def __init__(self) -> None:
         ...
-    
+
     async def send(self, data: str | bytes | dict[str, Any] | list[Any], event: str | None = ..., event_id: str | None = ..., retry: int | None = ..., comment: bool = ...) -> None:
         ...
-    
+
 
 
 def sse_response(request: Request, event_function: Callable[..., Awaitable[Any]], *args: Any, **kwargs: Any):

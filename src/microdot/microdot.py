@@ -1091,6 +1091,24 @@ class Microdot:
         """
         return self.route(url_pattern, methods=['DELETE'])
 
+    def query(self, url_pattern):
+        """Decorator that is used to register a function as a ``QUERY``
+        request handler for a given URL.
+
+        :param url_pattern: The URL pattern that will be compared against
+                            incoming requests.
+
+        This decorator can be used as an alias to the ``route`` decorator with
+        ``methods=['QUERY']``.
+
+        Example::
+
+            @app.query('/users/<int:id>')
+            def query_user(request, id):
+                # ...
+        """
+        return self.route(url_pattern, methods=['QUERY'])
+
     def before_request(self, f):
         """Decorator to register a function to run before each request is
         handled. The decorated function must take a single argument, the

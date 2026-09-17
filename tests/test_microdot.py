@@ -106,6 +106,41 @@ class TestMicrodot(unittest.TestCase):
         self.assertEqual(res.body, b'bar-async')
         self.assertEqual(res.json, None)
 
+    def test_query_request(self):
+        app = Microdot()
+
+        @app.route('/')
+        def index(req):
+            return 'foo'
+
+        @app.route('/', methods=['QUERY'])
+        def index_query(req):
+            return Response(f'bar {req.body.decode()}')
+
+        @app.query('/async')
+        async def index_query2(req):
+            return Response(f'bar-async {req.body.decode()}')
+
+        client = TestClient(app)
+
+        res = self._run(client.query('/', body=b'foo'))
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.headers['Content-Type'],
+                         'text/plain; charset=UTF-8')
+        self.assertEqual(res.headers['Content-Length'], '7')
+        self.assertEqual(res.text, 'bar foo')
+        self.assertEqual(res.body, b'bar foo')
+        self.assertEqual(res.json, None)
+
+        res = self._run(client.query('/async', body=b'foo'))
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.headers['Content-Type'],
+                         'text/plain; charset=UTF-8')
+        self.assertEqual(res.headers['Content-Length'], '13')
+        self.assertEqual(res.text, 'bar-async foo')
+        self.assertEqual(res.body, b'bar-async foo')
+        self.assertEqual(res.json, None)
+
     def test_head_request(self):
         app = Microdot()
 
