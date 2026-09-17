@@ -64,6 +64,10 @@ class CSRF:
                         allow = True
                     elif sfs == 'same-site' and self.allow_subdomains:
                         allow = True
+                    if allow:
+                        if not hasattr(request.g, '_vary'):  # pragma: no branch
+                            request.g._vary = set()
+                        request.g._vary.add('Sec-Fetch-Site')
                 if not allow and origin and self.cors and \
                         self.cors.allowed_origins != '*':
                     # if we have a list of allowed origins, then we can

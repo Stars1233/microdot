@@ -158,3 +158,23 @@ class TestSession(unittest.TestCase):
         self.assertEqual(res.text, 'None')
         res = self._run(client.get('/child/foo'))
         self.assertEqual(res.text, 'None')
+
+    def test_session_vary(self):
+        app = Microdot()
+        session_ext.initialize(
+            app, secret_key='34fcd06506b843169698c8d25043f03a')
+        client = TestClient(app)
+
+        @app.get('/foo')
+        async def foo(req):
+            return 'foo'
+
+        @app.get('/bar')
+        @with_session
+        async def bar(req):
+            return 'bar'
+
+        res = self._run(client.get('/foo'))
+        self.assertFalse('Vary' in res.headers)
+        res = self._run(client.get('/bar'))
+        self.assertEqual(res.headers['Vary'], 'Cookie')

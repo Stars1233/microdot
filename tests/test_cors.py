@@ -65,6 +65,7 @@ class TestCORS(unittest.TestCase):
 
         @app.get('/foo')
         def foo(req):
+            req.g._vary = set(['Accept'])
             return 'foo', {'Vary': 'X-Foo, X-Bar'}
 
         client = TestClient(app)
@@ -96,7 +97,12 @@ class TestCORS(unittest.TestCase):
         res = self._run(client.get(
             '/foo', headers={'Origin': 'https://example.com'}))
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(res.headers['Vary'], 'X-Foo, X-Bar, Origin')
+        vary = res.headers['Vary'].split(', ')
+        self.assertEqual(len(vary), 4)
+        self.assertIn('Origin', vary)
+        self.assertIn('X-Foo', vary)
+        self.assertIn('X-Bar', vary)
+        self.assertIn('Accept', vary)
 
     def test_cors_preflight(self):
         app = Microdot()

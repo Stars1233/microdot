@@ -65,6 +65,7 @@ class TestCSRF(unittest.TestCase):
             '/submit', headers={'Sec-Fetch-Site': 'same-origin'}
         ))
         self.assertEqual(res.status_code, 204)
+        self.assertIn('Sec-Fetch-Site', res.headers['Vary'])
 
         res = self._run(client.post('/submit-exempt'))
         self.assertEqual(res.status_code, 204)
@@ -74,6 +75,11 @@ class TestCSRF(unittest.TestCase):
         self.assertEqual(res.status_code, 204)
         res = self._run(client.get('/get-protected'))
         self.assertEqual(res.status_code, 204)
+
+        res = self._run(client.get(
+            '/get-protected', headers={'Sec-Fetch-Site': 'same-site'}
+        ))
+        self.assertEqual(res.status_code, 403)
         res = self._run(client.get(
             '/get-protected', headers={'Sec-Fetch-Site': 'cross-site'}
         ))

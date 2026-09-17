@@ -1560,6 +1560,14 @@ class Microdot:
                 res = await invoke_handler(
                     handler, req, res) or res
         res.is_head = (req and req.method == 'HEAD')
+        if req and hasattr(req.g, '_vary'):
+            if res.headers.get('Vary'):
+                vary = set(
+                    [h.strip() for h in res.headers['Vary'].split(',')])
+                vary.update(req.g._vary)
+            else:
+                vary = req.g._vary
+            res.headers['Vary'] = ', '.join(list(vary))
         return res
 
 

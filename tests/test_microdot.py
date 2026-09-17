@@ -239,6 +239,41 @@ class TestMicrodot(unittest.TestCase):
         self.assertEqual(res.text, '123')
         self.assertEqual(client.cookies, {'one': '1', 'four': '4'})
 
+    def test_vary_header(self):
+        app = Microdot()
+
+        @app.route('/foo')
+        def foo(req):
+            return '', {'Vary': 'Cookie'}
+
+        @app.route('/bar')
+        def bar(req):
+            req.g._vary = set(['Cookie', 'Accept'])
+            return ''
+
+        @app.route('/baz')
+        def baz(req):
+            req.g._vary = set(['Cookie', 'Accept'])
+            return '', {'Vary': 'Origin, Accept'}
+
+        client = TestClient(app)
+
+        res = self._run(client.get('/foo'))
+        self.assertEqual(res.headers['Vary'], 'Cookie')
+
+        res = self._run(client.get('/bar'))
+        vary = res.headers['Vary'].split(', ')
+        self.assertEqual(len(vary), 2)
+        self.assertIn('Cookie', vary)
+        self.assertIn('Accept', vary)
+
+        res = self._run(client.get('/baz'))
+        vary = res.headers['Vary'].split(', ')
+        self.assertEqual(len(vary), 3)
+        self.assertIn('Cookie', vary)
+        self.assertIn('Accept', vary)
+        self.assertIn('Origin', vary)
+
     def test_binary_payload(self):
         app = Microdot()
 
